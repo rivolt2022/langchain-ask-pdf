@@ -40,32 +40,32 @@ def main():
         embeddings = OpenAIEmbeddings()
         knowledge_base = FAISS.from_texts(chunks, embeddings)
 
-        # If currently processing, show a message instead of the input box
-        if st.session_state['processing']:
-            st.write("질문을 처리 중입니다. 잠시만 기다려주세요...")
-        else:
-            user_question = st.text_input("PDF에 대해서 질문해주세요:")
+        # Input box with disabled option based on processing state
+        user_question = st.text_input(
+            "PDF에 대해서 질문해주세요:",
+            disabled=st.session_state['processing']
+        )
 
-            if user_question:
-                # Set processing flag to True to disable input
-                st.session_state['processing'] = True
+        if user_question and not st.session_state['processing']:
+            # Set processing flag to True to disable input
+            st.session_state['processing'] = True
 
-                # Process the question in the background
-                with st.spinner("답변을 생성하는 중입니다..."):
-                    docs = knowledge_base.similarity_search(user_question)
-                    
-                    # Use chat-based LLM (e.g., gpt-4)
-                    llm = ChatOpenAI(model="gpt-4")
-                    chain = load_qa_chain(llm, chain_type="stuff")
-                    
-                    with get_openai_callback() as cb:
-                        response = chain.run(input_documents=docs, question=user_question)
-                        print(cb)
-                    
-                    st.write(response)
+            # Process the question in the background
+            with st.spinner("답변을 생성하는 중입니다..."):
+                docs = knowledge_base.similarity_search(user_question)
                 
-                # After processing is done, reset processing flag to False
-                st.session_state['processing'] = False
+                # Use chat-based LLM (e.g., gpt-3.5-turbo)
+                llm = ChatOpenAI(model="gpt-3.5-turbo")  # Changed to gpt-3.5-turbo
+                chain = load_qa_chain(llm, chain_type="stuff")
+                
+                with get_openai_callback() as cb:
+                    response = chain.run(input_documents=docs, question=user_question)
+                    print(cb)
+                
+                st.write(response)
+            
+            # After processing is done, reset processing flag to False
+            st.session_state['processing'] = False
 
 if __name__ == '__main__':
     main()
