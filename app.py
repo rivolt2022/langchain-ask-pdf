@@ -42,7 +42,7 @@ def main():
       if user_question:
         docs = knowledge_base.similarity_search(user_question)
         
-        llm = OpenAI(model="gpt-4o-mini")
+        llm = OpenAI(model="gpt-3.5-turbo-instruct")
         chain = load_qa_chain(llm, chain_type="stuff")
         with get_openai_callback() as cb:
           response = chain.run(input_documents=docs, question=user_question)
