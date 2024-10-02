@@ -10,8 +10,8 @@ from langchain.callbacks import get_openai_callback
 
 def main():
     load_dotenv()
-    st.set_page_config(page_title="연세대학교 행정혁신")
-    st.header("연세대학교 행정혁신 예제챗봇💬")
+    st.set_page_config(page_title="연세대학교 행정 혁신")
+    st.header("연세대학교 행정 혁신 예제 챗봇💬")
 
     # Initialize session state for processing flag
     if 'processing' not in st.session_state:
