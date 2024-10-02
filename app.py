@@ -10,7 +10,7 @@ from langchain.callbacks import get_openai_callback
 
 def main():
     load_dotenv()
-    st.set_page_config(page_title=""연세대학교행정혁신")
+    st.set_page_config(page_title="연세대학교 행정혁신")
     st.header("연세대학교 행정혁신 예제챗봇💬")
     
     # upload file
