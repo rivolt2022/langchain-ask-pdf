@@ -18,7 +18,7 @@ def main():
         st.session_state['processing'] = False
 
     # upload file
-    pdf = st.file_uploader("PDF를 업로드해주세요.", type="pdf")
+    pdf = st.file_uploader("행정 매뉴얼을 PDF로 업로드해주세요.", type="pdf")
     
     # extract the text
     if pdf is not None:
@@ -58,7 +58,7 @@ def main():
                 docs = knowledge_base.similarity_search(user_question)
                 
                 # Use chat-based LLM (e.g., gpt-3.5-turbo)
-                llm = ChatOpenAI(model="gpt-3.5-turbo")  # Changed to gpt-3.5-turbo
+                llm = ChatOpenAI(model="gpt-4-turbo")  # Changed to gpt-3.5-turbo
                 chain = load_qa_chain(llm, chain_type="stuff")
                 
                 with get_openai_callback() as cb:
