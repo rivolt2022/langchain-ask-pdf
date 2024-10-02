@@ -40,13 +40,16 @@ def main():
         embeddings = OpenAIEmbeddings()
         knowledge_base = FAISS.from_texts(chunks, embeddings)
 
-        # Input box with disabled option based on processing state
-        user_question = st.text_input(
-            "PDF에 대해서 질문해주세요:",
-            disabled=st.session_state['processing']
-        )
+        # Create a form to capture the user's question
+        with st.form(key="user_question_form", clear_on_submit=True):
+            user_question = st.text_input(
+                "PDF에 대해서 질문해주세요:",
+                disabled=st.session_state['processing']
+            )
+            submit_button = st.form_submit_button(label="질문 제출")
 
-        if user_question and not st.session_state['processing']:
+        # When the form is submitted (Enter key pressed)
+        if submit_button and user_question and not st.session_state['processing']:
             # Set processing flag to True to disable input
             st.session_state['processing'] = True
 
