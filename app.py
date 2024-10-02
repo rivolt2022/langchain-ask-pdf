@@ -54,7 +54,7 @@ def main():
             st.session_state['processing'] = True
 
             # Process the question in the background
-            with st.spinner("답변을 생성하는 중입니다..."):
+            with st.spinner("답변을 생성하는 중입니다. 답변 생성중 '질문 제출' 하지 말아주세요."):
                 docs = knowledge_base.similarity_search(user_question)
                 
                 # Use chat-based LLM (e.g., gpt-3.5-turbo)
