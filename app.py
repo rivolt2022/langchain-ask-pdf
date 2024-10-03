@@ -14,7 +14,7 @@ def main():
 
     # Streamlit 페이지 설정 (페이지 제목 설정)
     st.set_page_config(page_title="연세대학교 행정 혁신")
-    st.header("연세대학교 행정 혁신 예제 챗봇💬")  # 페이지 헤더 설정
+    st.header("연세대학교 행정 혁신 예제 챗봇(행정 매뉴얼 PDF 기반)")  # 페이지 헤더 설정
 
     # 세션 상태 초기화 (처리 중 여부를 확인하기 위한 플래그)
     if 'processing' not in st.session_state:
