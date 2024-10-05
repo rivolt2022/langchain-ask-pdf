@@ -43,6 +43,12 @@ def main():
                 text = ""
                 for page in pdf_reader.pages:
                     text += page.extract_text()
+
+                # 텍스트 추출 확인
+                if not text:
+                    st.error(f"'{pdf.name}'에서 텍스트를 추출할 수 없습니다.")
+                    return
+
                 all_text += text
 
             # 텍스트를 청크 단위로 분할
@@ -52,7 +58,12 @@ def main():
                 chunk_overlap=200,  # 청크 간 중첩 설정
                 length_function=len  # 텍스트 길이 계산 함수
             )
-            chunks = text_splitter.split_text(all_text)  # 텍스트를 청크로 분할
+            chunks = text_splitter.split_text(all_text)
+
+            # 청크가 유효한지 확인
+            if len(chunks) == 0:
+                st.error("유효한 텍스트 청크가 생성되지 않았습니다. PDF 파일의 내용을 확인하세요.")
+                return
             
             # 임베딩 생성 (OpenAI 임베딩 사용)
             embeddings = OpenAIEmbeddings()
