@@ -21,9 +21,11 @@ def main():
         st.session_state['processing'] = False
 
     # 파일 업로드 섹션 (최대 3개의 PDF 파일 업로드, 각 10MB로 제한)
-    uploaded_pdfs = st.file_uploader("최대 3개의 행정 매뉴얼을 PDF로 업로드해주세요. (각 파일 최대 10MB)", 
-                                      type="pdf", 
-                                      accept_multiple_files=True)
+    uploaded_pdfs = st.file_uploader(
+        "Drag and drop files here\nLimit 10MB per file • PDF", 
+        type="pdf", 
+        accept_multiple_files=True
+    )
 
     # 업로드된 파일이 있는지 확인하고, 최대 3개까지만 처리
     if uploaded_pdfs is not None and len(uploaded_pdfs) <= 3:
