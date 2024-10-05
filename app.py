@@ -22,7 +22,7 @@ def main():
 
     # 파일 업로드 섹션 (최대 3개의 PDF 파일 업로드, 각 10MB로 제한)
     # 파일 업로드 섹션 (최대 3개의 PDF 파일 업로드, 각 10MB로 제한)
-    uploaded_pdfs = st.file_uploader("최대 3개의 행정 매뉴얼을 PDF로 업로드해주세요. 모든 PDF 파일을 분석하여 답변을 생성합니다. (각 파일 최대 10MB)", 
+    uploaded_pdfs = st.file_uploader("최대 3개의 행정 매뉴얼을 PDF로 업로드해주세요. 업로드된 PDF 파일을 분석하여 답변을 생성합니다. (각 파일 최대 10MB)", 
                                       type="pdf", 
                                       accept_multiple_files=True)
 
