@@ -20,16 +20,24 @@ def main():
     if 'processing' not in st.session_state:
         st.session_state['processing'] = False
 
-    # 파일 업로드 섹션 (PDF 파일 업로드)
-    pdf = st.file_uploader("행정 매뉴얼을 PDF로 업로드해주세요.", type="pdf")
+    # 파일 업로드 섹션 (최대 3개의 PDF 파일 업로드 허용, 각 파일 10MB 제한)
+    pdfs = st.file_uploader("행정 매뉴얼을 PDF로 최대 3개까지 업로드해주세요 (각 파일 최대 10MB).", type="pdf", accept_multiple_files=True)
     
-    # PDF 파일이 업로드된 경우
-    if pdf is not None:
-        pdf_reader = PdfReader(pdf)  # PDF 리더를 사용하여 PDF 파일 읽기
-        text = ""
-        # 각 페이지의 텍스트를 추출
-        for page in pdf_reader.pages:
-            text += page.extract_text()
+    # 파일이 업로드된 경우 (최대 3개)
+    if pdfs and len(pdfs) <= 3:
+        all_text = ""
+        # 각 PDF 파일 크기 확인 및 처리
+        for pdf in pdfs:
+            if pdf.size > 10 * 1024 * 1024:  # 10MB 초과 시 경고 메시지 출력
+                st.warning(f"파일 {pdf.name}은(는) 10MB를 초과합니다. 다른 파일을 업로드해주세요.")
+                return  # 파일 처리를 중단하고 리턴
+            
+            pdf_reader = PdfReader(pdf)  # PDF 리더를 사용하여 PDF 파일 읽기
+            text = ""
+            # 각 페이지의 텍스트를 추출
+            for page in pdf_reader.pages:
+                text += page.extract_text()
+            all_text += text
         
         # 텍스트를 청크 단위로 분할
         text_splitter = CharacterTextSplitter(
@@ -38,7 +46,7 @@ def main():
             chunk_overlap=200,  # 청크 간 중첩 설정
             length_function=len  # 텍스트 길이 계산 함수
         )
-        chunks = text_splitter.split_text(text)  # 텍스트를 청크로 분할
+        chunks = text_splitter.split_text(all_text)  # 모든 텍스트를 청크로 분할
         
         # 임베딩 생성 (OpenAI 임베딩 사용)
         embeddings = OpenAIEmbeddings()
