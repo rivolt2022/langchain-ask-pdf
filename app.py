@@ -22,7 +22,7 @@ def main():
 
     # 파일 업로드 섹션 (최대 3개의 PDF 파일 업로드, 각 10MB로 제한)
     # 파일 업로드 섹션 (최대 3개의 PDF 파일 업로드, 각 10MB로 제한)
-    uploaded_pdfs = st.file_uploader("최대 3개의 행정 매뉴얼을 PDF로 업로드해주세요. 업로드된 PDF 파일을 분석하여 답변을 생성합니다. (각 파일 최대 10MB)", 
+    uploaded_pdfs = st.file_uploader("최대 3개의 행정 매뉴얼을 PDF로 업로드해주세요. 업로드된 PDF 파일을 분석하여 답변을 생성합니다. (각 파일 최대 20MB)", 
                                       type="pdf", 
                                       accept_multiple_files=True)
 
@@ -33,8 +33,8 @@ def main():
 
         # 각 파일에 대해 파일 크기 확인
         for pdf in uploaded_pdfs:
-            if pdf.size > 10 * 1024 * 1024:  # 10MB로 제한
-                st.error(f"'{pdf.name}' 파일의 크기가 10MB를 초과합니다.")
+            if pdf.size > 10 * 1024 * 1024 * 2:  # 10MB로 제한
+                st.error(f"'{pdf.name}' 파일의 크기가 20MB를 초과합니다.")
                 valid_pdfs = False
         
         if valid_pdfs:
